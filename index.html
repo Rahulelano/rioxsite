@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Defensive initialization & error shield for external/extension feature flags -->
+    <script>
+      (function() {
+        try {
+          if (typeof window !== 'undefined') {
+            // Provide resilient fallback stubs for common feature flag SDKs (e.g. PostHog, generic featureFlags)
+            if (!window.posthog) {
+              window.posthog = {
+                isFeatureEnabled: function() { return false; },
+                onFeatureFlags: function(cb) { if (typeof cb === 'function') { try { cb(); } catch(_) {} } },
+                getFeatureFlag: function() { return false; },
+                getFeatureFlagPayload: function() { return null; },
+                reloadFeatureFlags: function() {},
+              };
+            }
+            if (!window.featureFlags) {
+              window.featureFlags = {
+                isFeatureEnabled: function() { return false; },
+              };
+            }
+
+            // Suppress uncaught third-party / browser-extension errors referencing isFeatureEnabled
+            window.addEventListener('error', function(event) {
+              if (event && event.message && event.message.includes('isFeatureEnabled')) {
+                console.warn('[RIONXT Guard] Safely intercepted external uninitialized feature flag error:', event.message);
+                event.preventDefault();
+                return true;
+              }
+            });
+          }
+        } catch (_) {}
+      })();
+    </script>
+    <title>RION TECHNOLOGIES (RIONXT) — Electronics Engineering &amp; EMS</title>
+    <meta
+      name="description"
+      content="From electronics design and embedded engineering to precision PCB assembly, SMT/THT manufacturing, IIoT, and industrial automation — RION TECHNOLOGIES turns technical ideas into production-ready solutions."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.rionxt.com/" />
+
+    <!-- OpenGraph Social Metadata -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="RION TECHNOLOGIES (RIONXT)" />
+    <meta property="og:title" content="RION TECHNOLOGIES (RIONXT) — Electronics Engineering &amp; EMS" />
+    <meta
+      property="og:description"
+      content="From electronics design and embedded engineering to precision PCB assembly, SMT/THT manufacturing, IIoT, and industrial automation — RION TECHNOLOGIES turns technical ideas into production-ready solutions."
+    />
+    <meta property="og:url" content="https://www.rionxt.com/" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="RION TECHNOLOGIES (RIONXT) — Electronics Engineering &amp; EMS" />
+    <meta
+      name="twitter:description"
+      content="Electronics R&amp;D, PCB Design &amp; Assembly, SMT/THT Manufacturing, Embedded Systems, IIoT, and Industrial Automation in Sriperumbudur, Kanchipuram."
+    />
+
+    <!-- Fonts: Sora (Headings), Plus Jakarta Sans (Body), JetBrains Mono (Technical Specs) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Organization & Manufacturing Service Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "RION TECHNOLOGIES",
+        "alternateName": "RIONXT",
+        "url": "https://www.rionxt.com/",
+        "slogan": "From Intelligent Ideas to Engineered Reality.",
+        "description": "Electronics research and development, PCB design and assembly, SMT and THT manufacturing, Electronic Manufacturing Services (EMS), embedded systems engineering, firmware development, Industrial IoT (IIoT), and industrial automation solutions.",
+        "telephone": "+91-7358865706",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Plot no. 67 & 68, Madhav Nagar, No. 102 Irungattukottai Village, Sriperumbudur Taluk",
+          "addressLocality": "Kanchipuram",
+          "addressRegion": "Tamil Nadu",
+          "postalCode": "602105",
+          "addressCountry": "IN"
+        },
+        "knowsAbout": [
+          "PCB Design and Assembly",
+          "SMT Assembly",
+          "THT Assembly",
+          "Electronic Manufacturing Services",
+          "Embedded Systems Engineering",
+          "Firmware Development",
+          "Industrial IoT (IIoT)",
+          "Smart OEE Solutions",
+          "Industrial Automation"
+        ]
+      }
+    </script>
+  </head>
+  <body class="bg-[#071426] text-slate-900 antialiased selection:bg-[#1677FF] selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
